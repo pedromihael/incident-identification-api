@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS project(
 
 CREATE TABLE IF NOT EXISTS incident(
     id text PRIMARY KEY,
-    name text NOT NULL
+    name text NOT NULL,
+    project_name text NOT NULL
 );
 
 ALTER TABLE project ADD COLUMN fk_provider text REFERENCES provider(id);
