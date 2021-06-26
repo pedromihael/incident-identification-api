@@ -1,5 +1,8 @@
 const knex = require('../../../db');
 
+const projectsController = require('../../project/controllers');
+const severitiesController = require('../../severity/controllers');
+
 const projectsModel = require('../../project/models');
 const providerModel = require('../../provider/models');
 
@@ -33,12 +36,21 @@ const getIncidentsByProject = async (fk_project) => {
   }
 };
 
+const getProjectByIncident = async (id) => {
+  try {
+    const result = await knex('incident').where({ id });
+    return result[0];
+  } catch (error) {
+    return errorFactory.createError(error, 'getIncidentByProjectId');
+  }
+};
+
 const registerIncident = async (description, fk_severity, fk_project) => {
   try {
     await knex('incident').insert({ description, fk_severity, fk_project });
 
     const incidentsByProject = await getIncidentsByProject(fk_project);
-    await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject);
+    await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject, 'create');
     await providerModel.updateReliability(fk_project);
 
     return { ok: true };
@@ -48,25 +60,45 @@ const registerIncident = async (description, fk_severity, fk_project) => {
   }
 };
 
-const updateIncident = async (id, field, value) => {
+const updateIncident = async (id, field, value, fk_project) => {
   try {
-    // cada incidente atualizado precisa ter a confiabilidade do projeto e do provedor alteradas
+    if (field === 'weight') {
+      const incidentsByProject = await getIncidentsByProject(fk_project);
+      const { id: fk_severity } = await severitiesController.getSeverityByWeight(value);
 
-    await knex('incident')
-      .update({ [`${field}`]: value })
-      .where({ id });
+      if (fk_severity) {
+        await knex('incident').update({ fk_severity }).where({ id });
+        await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject, 'update');
+        await providerModel.updateReliability(fk_project);
+      } else {
+        return errorFactory.createError(
+          'This weight is not supported. Choose one of these: 1, 5, 10, 100.',
+          'updateIncident',
+        );
+      }
+    } else {
+      await knex('incident')
+        .update({ [`${field}`]: value })
+        .where({ id });
+    }
 
     return { ok: true };
   } catch (error) {
+    console.log('error', error);
     return errorFactory.createError(error, 'updateIncident');
   }
 };
 
 const deleteIncident = async (id) => {
   try {
-    // cada incidente deletado precisa ter a confiabilidade do projeto e do provedor alteradas
+    const { fk_project, fk_severity } = await getProjectByIncident(id);
+    const incidentsByProject = await getIncidentsByProject(fk_project);
 
     await knex('incident').where({ id }).delete();
+
+    await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject, 'delete');
+    await providerModel.updateReliability(fk_project);
+
     return { ok: true };
   } catch (error) {
     return errorFactory.createError(error, 'deleteIncident');
@@ -77,6 +109,7 @@ module.exports = {
   getAllIncidents,
   getIncidentById,
   getIncidentsByProject,
+  getProjectByIncident,
   registerIncident,
   updateIncident,
   deleteIncident,

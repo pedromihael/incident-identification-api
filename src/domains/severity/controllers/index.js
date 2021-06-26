@@ -16,6 +16,15 @@ const getSeverityById = async (id) => {
   return result[0];
 };
 
+const getSeverityByWeight = async (weight) => {
+  const result = await knex('severity')
+    .join('severity_enum', 'fk_severity_enum', 'severity_enum.id')
+    .select('severity.id', 'severity.weight', 'severity_enum.name')
+    .where({ 'severity.weight': weight });
+
+  return result[0];
+};
+
 const getSeverityByName = async (name) => {
   const result = await knex('severity')
     .join('severity_enum', 'fk_severity_enum', 'severity_enum.id')
@@ -64,6 +73,7 @@ const deleteSeverity = async (id) => {
 module.exports = {
   getAllSeverities,
   getSeverityById,
+  getSeverityByWeight,
   getSeverityByName,
   registerSeverity,
   updateSeverity,

@@ -1,16 +1,20 @@
 const severitiesController = require('../../severity/controllers');
 const projectsController = require('../controllers');
 
-const updateReliability = async (fk_project, fk_severity, incidentsByProject) => {
-  const newIncidentWeight = await severitiesController.getSeverityById(fk_severity);
+const updateReliability = async (fk_project, fk_severity, incidentsByProject, type) => {
   const project = await projectsController.getProjectById(fk_project);
 
   let incidentsGroupedByWeights = [];
 
-  if (newIncidentWeight.length) {
-    const { weight } = newIncidentWeight;
-    incidentsGroupedByWeights.push({ weight, quantity: 1 });
+  if (type === 'create') {
+    const newIncidentWeight = await severitiesController.getSeverityById(fk_severity);
+    if (newIncidentWeight.length) {
+      const { weight } = newIncidentWeight;
+      incidentsGroupedByWeights.push({ weight, quantity: 1 });
+    }
   }
+
+  // if type === 'update', fk_severity is the new severity of the weight,  so incident.fk_severity is already the updated one
 
   if (incidentsByProject.length) {
     for await (const incident of incidentsByProject) {

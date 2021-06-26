@@ -20,8 +20,8 @@ router.post('/incident', async (req, res) => {
 });
 
 router.put('/incident', async (req, res) => {
-  const { description, id } = req.body;
-  const response = await updateIncident(id, description);
+  const { field, value, fk_project, id } = req.body;
+  const response = await updateIncident(id, field, value, fk_project);
 
   res.send(response);
 });
