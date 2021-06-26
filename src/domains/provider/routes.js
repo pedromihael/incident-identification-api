@@ -26,8 +26,8 @@ router.get('/provider/:name', async (req, res) => {
 });
 
 router.post('/provider', async (req, res) => {
-  const { name, reliability_percentage } = req.body;
-  const response = await registerProvider(name, reliability_percentage);
+  const { name } = req.body;
+  const response = await registerProvider(name);
   res.send(response);
 });
 

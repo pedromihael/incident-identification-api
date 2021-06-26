@@ -3,7 +3,7 @@ exports.up = function (knex) {
     .createTable('provider', (table) => {
       table.increments('id', { primaryKey: true });
       table.string('name').notNullable();
-      table.float('reliability_percentage', 2).notNullable();
+      table.float('reliability_percentage', 2);
       table.timestamps(true, true);
     })
     .createTable('severity_enum', (table) => {
@@ -22,13 +22,14 @@ exports.up = function (knex) {
         .references('id')
         .inTable('severity_enum')
         .onDelete('CASCADE')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .notNullable();
     })
     .createTable('project', (table) => {
       table.increments('id', { primaryKey: true });
       table.string('name').notNullable();
       table.string('responsible').notNullable();
-      table.float('reliability_percentage', 2).notNullable();
+      table.float('reliability_percentage', 2);
       table.integer('hours_effort').unsigned().notNullable();
       table.timestamps(true, true);
 
@@ -38,7 +39,8 @@ exports.up = function (knex) {
         .references('id')
         .inTable('provider')
         .onDelete('CASCADE')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .notNullable();
     })
     .createTable('incident', (table) => {
       table.increments('id', { primaryKey: true });
@@ -51,14 +53,16 @@ exports.up = function (knex) {
         .references('id')
         .inTable('severity')
         .onDelete('CASCADE')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .notNullable();
       table
         .integer('fk_project')
         .unsigned()
         .references('id')
         .inTable('project')
         .onDelete('CASCADE')
-        .onUpdate('CASCADE');
+        .onUpdate('CASCADE')
+        .notNullable();
     })
     .createTable('reliability', (table) => {
       table.increments('id', { primaryKey: true });

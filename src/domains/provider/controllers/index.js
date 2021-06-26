@@ -1,47 +1,71 @@
 const knex = require('../../../db');
+const ApiErrorFactory = require('../../../shared/factories/ApiErrorFactory');
+
+const apiErrorFactory = new ApiErrorFactory();
 
 const getAllProviders = async () => {
-  const results = await knex('provider');
-  return results;
+  try {
+    const results = await knex('provider');
+    return results;
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'getAllProviders');
+  }
 };
 
 const getProviderById = async (id) => {
-  const result = await knex('provider').where({ id });
-
-  return result;
+  try {
+    const result = await knex('provider').where({ id });
+    return result;
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'getProviderById');
+  }
 };
 
 const getProviderByName = async (name) => {
-  const result = await knex('provider').where({ name });
-
-  return result;
+  try {
+    const result = await knex('provider').where({ name });
+    return result;
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'getProviderByName');
+  }
 };
 
-const registerProvider = async (name, reliability_percentage) => {
-  const result = await knex('provider').insert({ name, reliability_percentage });
-
-  return result;
+const registerProvider = async (name) => {
+  try {
+    await knex('provider').insert({ name });
+    return { ok: true };
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'registerProvider');
+  }
 };
 
 const updateProvider = async (id, field, value) => {
   try {
-    const result = await knex('provider')
+    await knex('provider')
       .update({ [`${field}`]: value })
       .where({ id });
-    return { result };
-  } catch (err) {
-    console.log('err', err);
-    return err;
+
+    return { ok: true };
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'updateProvider');
+  }
+};
+
+const updateProviderReliability = async (id, value) => {
+  try {
+    await knex('provider').update({ reliability_percentage: value }).where({ id });
+    return { ok: true };
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'updateProviderReliability');
   }
 };
 
 const deleteProvider = async (id) => {
   try {
-    const result = await knex('provider').where({ id }).delete();
-    return { result };
-  } catch (err) {
-    console.log('err', err);
-    return err;
+    await knex('provider').where({ id }).delete();
+    return { ok: true };
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'deleteProvider');
   }
 };
 
@@ -51,5 +75,6 @@ module.exports = {
   getProviderByName,
   registerProvider,
   updateProvider,
+  updateProviderReliability,
   deleteProvider,
 };
