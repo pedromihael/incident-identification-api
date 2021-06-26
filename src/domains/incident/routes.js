@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { getIncidentById, registerIncident, getAllIncidents, updateIncident, deleteIncident } = require('./controllers');
 
-router.get('/incident', async (req, res) => {
+router.get('/incidents', async (req, res) => {
   const response = await getAllIncidents();
   res.send(response);
 });

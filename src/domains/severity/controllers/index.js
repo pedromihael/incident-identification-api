@@ -11,7 +11,7 @@ const getSeverityById = async (id) => {
   const result = await knex('severity')
     .join('severity_enum', 'fk_severity_enum', 'severity_enum.id')
     .select('severity.id', 'severity.weight', 'severity_enum.name')
-    .where({ id });
+    .where({ 'severity.id': id });
 
   return result;
 };
@@ -26,8 +26,8 @@ const getSeverityByName = async (name) => {
 };
 
 const registerSeverity = async (weight, fk_severity_enum, name) => {
-  const result1 = await knex('severity').insert({ weight, fk_severity_enum });
-  const result2 = await knex('severity_enum').insert({ id: fk_severity_enum, name });
+  const result1 = await knex('severity_enum').insert({ id: fk_severity_enum, name });
+  const result2 = await knex('severity').insert({ weight, fk_severity_enum });
 
   return [...result1, ...result2];
 };

@@ -25,11 +25,9 @@ router.get('/project/:name', async (req, res) => {
   res.send(response);
 });
 
-// TODO: remover confiabilidade, é calculada posteriormente
-
 router.post('/project', async (req, res) => {
-  const { name, responsible, reliability_percentage, hour_effort, fk_provider } = req.body;
-  const response = await registerProject(name, responsible, reliability_percentage, hour_effort, fk_provider);
+  const { name, responsible, hours_effort, fk_provider } = req.body;
+  const response = await registerProject(name, responsible, hours_effort, fk_provider);
   res.send(response);
 });
 

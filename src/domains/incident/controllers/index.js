@@ -3,6 +3,8 @@ const knex = require('../../../db');
 const providersController = require('../../provider/controllers');
 const projectsController = require('../../project/controllers');
 
+const projectsModel = require('../../project/models');
+
 const ApiErrorFactory = require('../../../shared/factories/ApiErrorFactory');
 const errorFactory = new ApiErrorFactory();
 
@@ -33,27 +35,30 @@ const getIncidentsByProject = async (fk_project) => {
   }
 };
 
-const registerIncident = async (description, fk_severity, fk_project, fk_provider) => {
+const registerIncident = async (description, fk_severity, fk_project) => {
   try {
-    const result = await knex('incident').insert({ description, fk_severity, fk_project });
-    // TODO: mudar confiabilidade
+    await knex('incident').insert({ description, fk_severity, fk_project });
 
-    const newProjectReliability = null; // pegar do model
-    const newProviderReliability = null; // pegar do model
+    const incidentsByProject = await getIncidentsByProject(fk_project);
+    const udpdate = await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject);
+    console.log('udpdate', udpdate);
 
-    await projectsController.updateProvider(fk_project, 'reliability_percentage', newProjectReliability);
-    await providersController.updateProvider(fk_provider, 'reliability_percentage', newProviderReliability);
-
-    return result;
+    return { ok: true };
   } catch (error) {
+    console.log('error', error);
     return errorFactory.createError(error, 'registerIncident');
   }
 };
 
-const updateIncident = async (id, description) => {
+const updateIncident = async (id, field, value) => {
   try {
-    const result = await knex('incident').update({ description }).where({ id });
-    return { result };
+    // cada incidente atualizado precisa ter a confiabilidade do projeto e do provedor alteradas
+
+    await knex('incident')
+      .update({ [`${field}`]: value })
+      .where({ id });
+
+    return { ok: true };
   } catch (error) {
     return errorFactory.createError(error, 'updateIncident');
   }
@@ -61,8 +66,10 @@ const updateIncident = async (id, description) => {
 
 const deleteIncident = async (id) => {
   try {
-    const result = await knex('incident').where({ id }).delete();
-    return { result };
+    // cada incidente deletado precisa ter a confiabilidade do projeto e do provedor alteradas
+
+    await knex('incident').where({ id }).delete();
+    return { ok: true };
   } catch (error) {
     return errorFactory.createError(error, 'deleteIncident');
   }

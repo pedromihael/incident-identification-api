@@ -15,7 +15,7 @@ const getAllProjects = async () => {
 const getProjectById = async (id) => {
   try {
     const result = await knex('project').where({ id });
-    return result;
+    return result[0];
   } catch (error) {
     return apiErrorFactory.createError(error, 'getProjectById');
   }
@@ -30,11 +30,13 @@ const getProjectByName = async (name) => {
   }
 };
 
-const registerProject = async (name, responsible, hour_effort, fk_provider) => {
+const registerProject = async (name, responsible, hours_effort, fk_provider) => {
   try {
-    await knex('project').insert({ name, responsible, hour_effort, fk_provider });
+    console.log(name, responsible, hours_effort, fk_provider);
+    await knex('project').insert({ name, responsible, hours_effort, fk_provider });
     return { ok: true };
   } catch (error) {
+    console.log('error', error);
     return apiErrorFactory.createError(error, 'registerProject');
   }
 };

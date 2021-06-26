@@ -1,0 +1,74 @@
+[
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 1,
+        "fk_severity": 1
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 1,
+        "fk_severity": 1
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 1,
+        "fk_severity": 5
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 1,
+        "fk_severity": 10
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 1,
+        "fk_severity": 10
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 1,
+        "fk_severity": 5
+    },
+
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 2,
+        "fk_severity": 1
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 2,
+        "fk_severity": 1
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 2,
+        "fk_severity": 1
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 2,
+        "fk_severity": 10
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 2,
+        "fk_severity": 100
+    },
+
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 3,
+        "fk_severity": 5
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 3,
+        "fk_severity": 10
+    },
+    {
+        "description": "Lorem ipsum",
+        "fk_project": 3,
+        "fk_severity": 10
+    }
+]

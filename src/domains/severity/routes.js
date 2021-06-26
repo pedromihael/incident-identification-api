@@ -26,8 +26,8 @@ router.get('/severity/:name', async (req, res) => {
 });
 
 router.post('/severity', async (req, res) => {
-  const { weight, fk_severity_enum, name } = req.body;
-  const response = await registerSeverity(weight, fk_severity_enum, name);
+  const { weight, fk_severity_enum, fk_project } = req.body;
+  const response = await registerSeverity(weight, fk_severity_enum, fk_project);
   res.send(response);
 });
 
