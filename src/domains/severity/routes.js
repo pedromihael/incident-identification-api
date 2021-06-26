@@ -38,10 +38,12 @@ router.put('/severity', async (req, res) => {
   res.send(response);
 });
 
-router.delete('/severity/:id', async (req, res) => {
-  const response = await deleteSeverity(req.params.id);
+// do not delete severities
 
-  res.send(response);
-});
+// router.delete('/severity/:id', async (req, res) => {
+//   const response = await deleteSeverity(req.params.id);
+
+//   res.send(response);
+// });
 
 module.exports = router;
