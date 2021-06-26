@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {
   getProjectById,
-  getProjectByName,
+  getProjectsByName,
   registerProject,
   getAllProjects,
   updateProject,
@@ -21,7 +21,7 @@ router.get('/project/:id', async (req, res) => {
 });
 
 router.get('/project/:name', async (req, res) => {
-  const response = await getProjectByName(req.params.name);
+  const response = await getProjectsByName(req.params.name);
   res.send(response);
 });
 

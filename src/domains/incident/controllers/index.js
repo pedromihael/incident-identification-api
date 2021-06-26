@@ -1,9 +1,7 @@
 const knex = require('../../../db');
 
-const providersController = require('../../provider/controllers');
-const projectsController = require('../../project/controllers');
-
 const projectsModel = require('../../project/models');
+const providerModel = require('../../provider/models');
 
 const ApiErrorFactory = require('../../../shared/factories/ApiErrorFactory');
 const errorFactory = new ApiErrorFactory();
@@ -40,8 +38,8 @@ const registerIncident = async (description, fk_severity, fk_project) => {
     await knex('incident').insert({ description, fk_severity, fk_project });
 
     const incidentsByProject = await getIncidentsByProject(fk_project);
-    const udpdate = await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject);
-    console.log('udpdate', udpdate);
+    await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject);
+    await providerModel.updateReliability(fk_project);
 
     return { ok: true };
   } catch (error) {

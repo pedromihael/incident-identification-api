@@ -21,12 +21,21 @@ const getProjectById = async (id) => {
   }
 };
 
-const getProjectByName = async (name) => {
+const getProjectsByName = async (name) => {
   try {
     const result = await knex('project').where({ name });
     return result;
   } catch (error) {
     return apiErrorFactory.createError(error, 'getProjectByName');
+  }
+};
+
+const getProjectsByProvider = async (fk_provider) => {
+  try {
+    const result = await knex('project').where({ fk_provider });
+    return result;
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'getProjectByProvider');
   }
 };
 
@@ -74,7 +83,8 @@ const deleteProject = async (id) => {
 module.exports = {
   getAllProjects,
   getProjectById,
-  getProjectByName,
+  getProjectsByName,
+  getProjectsByProvider,
   registerProject,
   updateProject,
   updateProjectReliability,

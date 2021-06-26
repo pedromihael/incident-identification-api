@@ -8,14 +8,14 @@ const updateReliability = async (fk_project, fk_severity, incidentsByProject) =>
   let incidentsGroupedByWeights = [];
 
   if (newIncidentWeight.length) {
-    const { weight } = newIncidentWeight[0];
+    const { weight } = newIncidentWeight;
     incidentsGroupedByWeights.push({ weight, quantity: 1 });
   }
 
   if (incidentsByProject.length) {
     for await (const incident of incidentsByProject) {
       const severities = await severitiesController.getSeverityById(incident.fk_severity);
-      const incidentWeight = severities[0].weight;
+      const incidentWeight = severities.weight;
       const weightGroup = incidentsGroupedByWeights.find((group) => group.weight === incidentWeight);
       if (weightGroup) {
         const withoutThisGroup = incidentsGroupedByWeights.filter((group) => group.weight !== incidentWeight);

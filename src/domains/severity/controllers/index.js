@@ -13,7 +13,7 @@ const getSeverityById = async (id) => {
     .select('severity.id', 'severity.weight', 'severity_enum.name')
     .where({ 'severity.id': id });
 
-  return result;
+  return result[0];
 };
 
 const getSeverityByName = async (name) => {
@@ -22,7 +22,7 @@ const getSeverityByName = async (name) => {
     .select('severity.id', 'severity.weight', 'severity_enum.name')
     .where({ name });
 
-  return result;
+  return result[0];
 };
 
 const registerSeverity = async (weight, fk_severity_enum, name) => {
