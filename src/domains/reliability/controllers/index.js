@@ -1,47 +1,61 @@
 const knex = require('../../../db');
+const ApiErrorFactory = require('../../../shared/factories/ApiErrorFactory');
+
+const apiErrorFactory = new ApiErrorFactory();
 
 const getAllReliabilities = async () => {
-  const results = await knex('reliability');
-  return results;
+  try {
+    const results = await knex('reliability');
+    return results;
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'getAllReliabilities');
+  }
 };
 
 const getReliabilityById = async (id) => {
-  const result = await knex('reliability').where({ id });
-
-  return result;
+  try {
+    const result = await knex('reliability').where({ id });
+    return result[0];
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'getReliabilityById');
+  }
 };
 
 const getReliabilityByName = async (name) => {
-  const result = await knex('reliability').where({ name });
-
-  return result;
+  try {
+    const result = await knex('reliability').where({ name });
+    return result[0];
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'getReliabilityByName');
+  }
 };
 
 const registerReliability = async (name, meta_percent) => {
-  const result = await knex('reliability').insert({ name, meta_percent });
-
-  return result;
+  try {
+    await knex('reliability').insert({ name, meta_percent });
+    return { ok: true };
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'registerReliability');
+  }
 };
 
 const updateReliability = async (id, field, value) => {
   try {
-    const result = await knex('reliability')
+    await knex('reliability')
       .update({ [`${field}`]: value })
       .where({ id });
     return { result };
-  } catch (err) {
-    console.log('err', err);
-    return err;
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'updateReliability');
   }
 };
 
 const deleteReliability = async (id) => {
   try {
-    const result = await knex('reliability').where({ id }).delete();
-    return { result };
-  } catch (err) {
-    console.log('err', err);
-    return err;
+    await knex('reliability').where({ id }).delete();
+    return { ok: true };
+  } catch (error) {
+    return apiErrorFactory.createError(error, 'deleteReliability');
   }
 };
 

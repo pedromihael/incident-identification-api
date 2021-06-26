@@ -1,6 +1,5 @@
 const knex = require('../../../db');
 
-const projectsController = require('../../project/controllers');
 const severitiesController = require('../../severity/controllers');
 
 const projectsModel = require('../../project/models');
