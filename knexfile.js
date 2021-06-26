@@ -2,12 +2,19 @@
 
 module.exports = {
   development: {
-    client: 'sqlite3',
+    client: 'pg',
     connection: {
-      filename: './src/db/incidents_mgmt.sqlite3',
+      username: 'postgres',
+      password: 'postgres',
+      // port: 5432,
+      database: 'incidents_tool',
     },
-    useNullAsDefault: true,
+    pool: {
+      min: 2,
+      max: 10,
+    },
     migrations: {
+      tableName: 'knex_migrations',
       directory: `${__dirname}/src/db/migrations`,
     },
   },

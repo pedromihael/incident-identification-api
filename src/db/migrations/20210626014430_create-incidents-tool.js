@@ -3,6 +3,7 @@ exports.up = function (knex) {
     .createTable('provider', (table) => {
       table.increments('id', { primaryKey: true });
       table.string('name').notNullable();
+      table.float('reliability_percentage', 2).notNullable();
       table.timestamps(true, true);
     })
     .createTable('severity_enum', (table) => {
