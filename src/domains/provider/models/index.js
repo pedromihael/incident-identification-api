@@ -2,7 +2,8 @@ const projectsController = require('../../project/controllers');
 const providersController = require('../controllers');
 
 const updateReliability = async (fk_project) => {
-  const { fk_provider } = await projectsController.getProjectById(fk_project);
+  const project = await projectsController.getProjectById(fk_project);
+  const { fk_provider } = project;
   const projectsByProvider = await projectsController.getProjectsByProvider(fk_provider);
 
   let reliabilitiesAndEfforts = [];
