@@ -43,7 +43,7 @@ exports.up = function (knex) {
         .notNullable();
     })
     .createTable('incident', (table) => {
-      table.increments('id', { primaryKey: true });
+      table.string('id', { primaryKey: true });
       table.string('description').notNullable();
       table.timestamps(true, true);
 

@@ -6,8 +6,8 @@ const providerRouter = require('./domains/provider/routes');
 const severityRouter = require('./domains/severity/routes');
 const app = express();
 
-app.disable('x-powered-by');
 app.use(cors());
+app.disable('x-powered-by');
 app.use(express.json());
 
 app.listen(3003, () => {
