@@ -1,7 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const { getIncidentById, registerIncident, getAllIncidents, updateIncident, deleteIncident } = require('./controllers');
+const {
+  getIncidentById,
+  registerIncident,
+  getAllIncidents,
+  getIncidentsByProjectGroupedByWeight,
+  updateIncident,
+  deleteIncident,
+} = require('./controllers');
 
 router.get('/incidents', async (req, res) => {
   const response = await getAllIncidents();
@@ -10,6 +17,11 @@ router.get('/incidents', async (req, res) => {
 
 router.get('/incident/:id', async (req, res) => {
   const response = await getIncidentById(req.params.id);
+  res.send(response);
+});
+
+router.get('/incident/projects/:projectId', async (req, res) => {
+  const response = await getIncidentsByProjectGroupedByWeight(req.params.projectId);
   res.send(response);
 });
 

@@ -44,6 +44,23 @@ const getProjectByIncident = async (id) => {
   }
 };
 
+const getIncidentsByProjectGroupedByWeight = async (fk_project) => {
+  try {
+    const groups = await knex('incident')
+      .count('fk_severity')
+      .select('fk_severity')
+      .where({ fk_project })
+      .groupBy(['fk_severity']);
+
+    const total = await knex('incident').count('*').where({ fk_project });
+
+    return { groups, total: total[0].count };
+  } catch (error) {
+    console.log('error', error);
+    return errorFactory.createError(error, 'getIncidentsByProjectGroupedByWeight');
+  }
+};
+
 const registerIncident = async (description, fk_severity, fk_project, id) => {
   try {
     await knex('incident').insert({ description, fk_severity, fk_project, id });
@@ -108,6 +125,7 @@ module.exports = {
   getAllIncidents,
   getIncidentById,
   getIncidentsByProject,
+  getIncidentsByProjectGroupedByWeight,
   getProjectByIncident,
   registerIncident,
   updateIncident,
