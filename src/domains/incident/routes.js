@@ -14,8 +14,8 @@ router.get('/incident/:id', async (req, res) => {
 });
 
 router.post('/incident', async (req, res) => {
-  const { description, fk_severity, fk_project } = req.body;
-  const response = await registerIncident(description, fk_severity, fk_project);
+  const { description, fk_severity, fk_project, id } = req.body;
+  const response = await registerIncident(description, fk_severity, fk_project, id);
   res.send(response);
 });
 

@@ -44,9 +44,9 @@ const getProjectByIncident = async (id) => {
   }
 };
 
-const registerIncident = async (description, fk_severity, fk_project) => {
+const registerIncident = async (description, fk_severity, fk_project, id) => {
   try {
-    await knex('incident').insert({ description, fk_severity, fk_project });
+    await knex('incident').insert({ description, fk_severity, fk_project, id });
 
     const incidentsByProject = await getIncidentsByProject(fk_project);
     await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject, 'create');
