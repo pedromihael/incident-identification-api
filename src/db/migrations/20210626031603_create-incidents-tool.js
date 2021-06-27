@@ -6,10 +6,16 @@ exports.up = function (knex) {
       table.float('reliability_percentage', 2);
       table.timestamps(true, true);
     })
+    .alterTable('provider', (table) => {
+      table.unique('name');
+    })
     .createTable('severity_enum', (table) => {
       table.increments('id', { primaryKey: true });
       table.string('name').notNullable();
       table.timestamps(true, true);
+    })
+    .alterTable('severity_enum', (table) => {
+      table.unique('name');
     })
     .createTable('severity', (table) => {
       table.increments('id', { primaryKey: true });
@@ -24,6 +30,9 @@ exports.up = function (knex) {
         .onDelete('CASCADE')
         .onUpdate('CASCADE')
         .notNullable();
+    })
+    .alterTable('severity', (table) => {
+      table.unique('weight');
     })
     .createTable('project', (table) => {
       table.increments('id', { primaryKey: true });
@@ -42,8 +51,11 @@ exports.up = function (knex) {
         .onUpdate('CASCADE')
         .notNullable();
     })
+    .alterTable('project', (table) => {
+      table.unique('name');
+    })
     .createTable('incident', (table) => {
-      table.string('id', { primaryKey: true });
+      table.string('id', { primaryKey: true }).notNullable();
       table.string('description').notNullable();
       table.timestamps(true, true);
 
@@ -64,11 +76,17 @@ exports.up = function (knex) {
         .onUpdate('CASCADE')
         .notNullable();
     })
+    .alterTable('incident', (table) => {
+      table.unique('id');
+    })
     .createTable('reliability', (table) => {
       table.increments('id', { primaryKey: true });
       table.string('name').notNullable();
       table.float('meta_percent', 2).notNullable();
       table.timestamps(true, true);
+    })
+    .alterTable('reliability', (table) => {
+      table.unique('name');
     });
 };
 

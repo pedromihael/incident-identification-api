@@ -1,74 +1,88 @@
 [
     {
+        "id": "IN001",
         "description": "Lorem ipsum",
         "fk_project": 1,
         "fk_severity": 1
     },
     {
+        "id": "IN002",
         "description": "Lorem ipsum",
         "fk_project": 1,
         "fk_severity": 1
     },
     {
+        "id": "IN003",
         "description": "Lorem ipsum",
         "fk_project": 1,
-        "fk_severity": 5
+        "fk_severity": 2
     },
     {
+        "id": "IN004",
         "description": "Lorem ipsum",
         "fk_project": 1,
-        "fk_severity": 10
+        "fk_severity": 3
     },
     {
+        "id": "IN005",
         "description": "Lorem ipsum",
         "fk_project": 1,
-        "fk_severity": 10
+        "fk_severity": 3
     },
     {
+        "id": "IN006",
         "description": "Lorem ipsum",
         "fk_project": 1,
-        "fk_severity": 5
+        "fk_severity": 2
     },
 
     {
+        "id": "IN007",
         "description": "Lorem ipsum",
         "fk_project": 2,
         "fk_severity": 1
     },
     {
+        "id": "IN008",
         "description": "Lorem ipsum",
         "fk_project": 2,
         "fk_severity": 1
     },
     {
+        "id": "IN009",
         "description": "Lorem ipsum",
         "fk_project": 2,
         "fk_severity": 1
     },
     {
+        "id": "IN010",
         "description": "Lorem ipsum",
         "fk_project": 2,
-        "fk_severity": 10
+        "fk_severity": 3
     },
     {
+        "id": "IN011",
         "description": "Lorem ipsum",
         "fk_project": 2,
-        "fk_severity": 100
+        "fk_severity": 4
     },
 
     {
+        "id": "IN012",
         "description": "Lorem ipsum",
         "fk_project": 3,
-        "fk_severity": 5
+        "fk_severity": 2
     },
     {
+        "id": "IN013",
         "description": "Lorem ipsum",
         "fk_project": 3,
-        "fk_severity": 10
+        "fk_severity": 3
     },
     {
+        "id": "IN014",
         "description": "Lorem ipsum",
         "fk_project": 3,
-        "fk_severity": 10
+        "fk_severity": 3
     }
 ]

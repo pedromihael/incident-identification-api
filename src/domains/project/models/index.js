@@ -33,13 +33,16 @@ const updateReliability = async (fk_project, fk_severity, incidentsByProject, ty
     }
   }
 
-  const sumOfProductsFromWeightsAndQuantities = incidentsGroupedByWeights.reduce((prev, curr) => {
-    if (prev.hasOwnProperty('weight')) {
-      return prev.weight * prev.quantity + curr.weight * curr.quantity;
-    } else {
-      return prev + curr.weight * curr.quantity;
-    }
-  });
+  const sumOfProductsFromWeightsAndQuantities =
+    incidentsGroupedByWeights.length > 1
+      ? incidentsGroupedByWeights.reduce((prev, curr) => {
+          if (prev.hasOwnProperty('weight')) {
+            return prev.weight * prev.quantity + curr.weight * curr.quantity;
+          } else {
+            return prev + curr.weight * curr.quantity;
+          }
+        })
+      : incidentsGroupedByWeights[0].weight * incidentsGroupedByWeights[0].quantity;
 
   const quocient = sumOfProductsFromWeightsAndQuantities / project.hours_effort;
 
