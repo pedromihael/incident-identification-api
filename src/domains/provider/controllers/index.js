@@ -15,7 +15,7 @@ const getAllProviders = async () => {
 const getProviderById = async (id) => {
   try {
     const result = await knex('provider').where({ id });
-    return result;
+    return result[0];
   } catch (error) {
     return apiErrorFactory.createError(error, 'getProviderById');
   }
@@ -24,7 +24,7 @@ const getProviderById = async (id) => {
 const getProviderByName = async (name) => {
   try {
     const result = await knex('provider').where({ name });
-    return result;
+    return result[0];
   } catch (error) {
     return apiErrorFactory.createError(error, 'getProviderByName');
   }

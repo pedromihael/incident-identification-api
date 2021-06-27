@@ -24,7 +24,7 @@ const getProjectById = async (id) => {
 const getProjectsByName = async (name) => {
   try {
     const result = await knex('project').where({ name });
-    return result;
+    return result[0];
   } catch (error) {
     return apiErrorFactory.createError(error, 'getProjectByName');
   }
