@@ -10,7 +10,7 @@ const errorFactory = new ApiErrorFactory();
 
 const getAllIncidents = async () => {
   try {
-    const results = await knex('incident');
+    const results = await knex('incident').orderBy('id');
     return results;
   } catch (error) {
     return errorFactory.createError(error, 'getAllIncidents');
@@ -20,7 +20,7 @@ const getAllIncidents = async () => {
 const getIncidentById = async (id) => {
   try {
     const result = await knex('incident').where({ id });
-    return result;
+    return result[0];
   } catch (error) {
     return errorFactory.createError(error, 'getIncidentById');
   }
@@ -28,7 +28,7 @@ const getIncidentById = async (id) => {
 
 const getIncidentsByProject = async (fk_project) => {
   try {
-    const result = await knex('incident').where({ fk_project });
+    const result = await knex('incident').where({ fk_project }).orderBy('id');
     return result;
   } catch (error) {
     return errorFactory.createError(error, 'getIncidentsByProject');

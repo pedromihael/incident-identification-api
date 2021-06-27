@@ -5,7 +5,7 @@ const apiErrorFactory = new ApiErrorFactory();
 
 const getAllProviders = async () => {
   try {
-    const results = await knex('provider');
+    const results = await knex('provider').orderBy('id');
     return results;
   } catch (error) {
     return apiErrorFactory.createError(error, 'getAllProviders');

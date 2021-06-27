@@ -5,7 +5,7 @@ const apiErrorFactory = new ApiErrorFactory();
 
 const getAllReliabilities = async () => {
   try {
-    const results = await knex('reliability');
+    const results = await knex('reliability').orderBy('id');
     return results;
   } catch (error) {
     return apiErrorFactory.createError(error, 'getAllReliabilities');

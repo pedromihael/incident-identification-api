@@ -5,7 +5,7 @@ const apiErrorFactory = new ApiErrorFactory();
 
 const getAllProjects = async () => {
   try {
-    const results = await knex('project');
+    const results = await knex('project').orderBy('id');
     return results;
   } catch (error) {
     return apiErrorFactory.createError(error, 'getAllProjects');
@@ -32,7 +32,7 @@ const getProjectsByName = async (name) => {
 
 const getProjectsByProvider = async (fk_provider) => {
   try {
-    const result = await knex('project').where({ fk_provider });
+    const result = await knex('project').where({ fk_provider }.orderBy('id'));
     return result;
   } catch (error) {
     return apiErrorFactory.createError(error, 'getProjectByProvider');

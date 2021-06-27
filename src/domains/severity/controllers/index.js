@@ -7,7 +7,8 @@ const getAllSeverities = async () => {
   try {
     const results = await knex('severity')
       .join('severity_enum', 'fk_severity_enum', 'severity_enum.id')
-      .select('severity.id', 'severity.weight', 'severity_enum.name');
+      .select('severity.id', 'severity.weight', 'severity_enum.name')
+      .orderBy('severity.id');
     return results;
   } catch (error) {
     return apiErrorFactory.createError(error, 'getAllSeverities');
