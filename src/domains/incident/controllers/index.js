@@ -30,7 +30,15 @@ const getIncidentsByProject = async (fk_project) => {
   try {
     const result = await knex('incident')
       .join('severity', 'severity.id', 'incident.fk_severity')
-      .select('severity.weight', 'severity.id', 'incident.id', 'incident.description', 'incident.fk_severity')
+      .join('severity_enum', 'fk_severity_enum', 'severity_enum.id')
+      .select(
+        'severity_enum.name',
+        'severity.weight',
+        'severity.id',
+        'incident.id',
+        'incident.description',
+        'incident.fk_severity',
+      )
       .where({ 'incident.fk_project': fk_project })
       .orderBy('incident.id');
     return result;
