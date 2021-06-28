@@ -28,7 +28,11 @@ const getIncidentById = async (id) => {
 
 const getIncidentsByProject = async (fk_project) => {
   try {
-    const result = await knex('incident').where({ fk_project }).orderBy('id');
+    const result = await knex('incident')
+      .join('severity', 'severity.id', 'incident.fk_severity')
+      .select('severity.weight', 'severity.id', 'incident.id', 'incident.description', 'incident.fk_severity')
+      .where({ 'incident.fk_project': fk_project })
+      .orderBy('incident.id');
     return result;
   } catch (error) {
     return errorFactory.createError(error, 'getIncidentsByProject');

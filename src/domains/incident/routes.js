@@ -5,6 +5,7 @@ const {
   getIncidentById,
   registerIncident,
   getAllIncidents,
+  getIncidentsByProject,
   getIncidentsByProjectGroupedByWeight,
   updateIncident,
   deleteIncident,
@@ -22,6 +23,11 @@ router.get('/incident/:id', async (req, res) => {
 
 router.get('/incident/projects/:projectId', async (req, res) => {
   const response = await getIncidentsByProjectGroupedByWeight(req.params.projectId);
+  res.send(response);
+});
+
+router.get('/incident/projects/:projectId/detailed', async (req, res) => {
+  const response = await getIncidentsByProject(req.params.projectId);
   res.send(response);
 });
 
