@@ -4,6 +4,7 @@ const incidentRouter = require('./domains/incident/routes');
 const projectRouter = require('./domains/project/routes');
 const providerRouter = require('./domains/provider/routes');
 const severityRouter = require('./domains/severity/routes');
+const reliabilityRouter = require('./domains/reliability/routes');
 const app = express();
 
 app.use(cors());
@@ -18,3 +19,4 @@ app.use(incidentRouter);
 app.use(projectRouter);
 app.use(providerRouter);
 app.use(severityRouter);
+app.use(reliabilityRouter);
