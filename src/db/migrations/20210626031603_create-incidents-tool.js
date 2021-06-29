@@ -92,10 +92,10 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
   return knex.schema
-    .dropTableIfExists('provider')
-    .dropTableIfExists('severity')
-    .dropTableIfExists('project')
-    .dropTableIfExists('severity_enum')
     .dropTableIfExists('incident')
+    .dropTableIfExists('project')
+    .dropTableIfExists('severity')
+    .dropTableIfExists('severity_enum')
+    .dropTableIfExists('provider')
     .dropTableIfExists('reliability');
 };
