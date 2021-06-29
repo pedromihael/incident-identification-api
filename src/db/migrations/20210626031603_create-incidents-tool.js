@@ -3,7 +3,7 @@ exports.up = function (knex) {
     .createTable('provider', (table) => {
       table.increments('id', { primaryKey: true });
       table.string('name').notNullable();
-      table.float('reliability_percentage', 2);
+      table.float('reliability_percentage', 2).default(100);
       table.timestamps(true, true);
     })
     .alterTable('provider', (table) => {
@@ -38,7 +38,7 @@ exports.up = function (knex) {
       table.increments('id', { primaryKey: true });
       table.string('name').notNullable();
       table.string('responsible').notNullable();
-      table.float('reliability_percentage', 2);
+      table.float('reliability_percentage', 2).default(100);
       table.integer('hours_effort').unsigned().notNullable();
       table.timestamps(true, true);
 
