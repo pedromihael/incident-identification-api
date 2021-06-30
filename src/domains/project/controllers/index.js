@@ -5,7 +5,20 @@ const apiErrorFactory = new ApiErrorFactory();
 
 const getAllProjects = async () => {
   try {
-    const results = await knex('project').orderBy('id');
+    const results = await knex('project')
+      .join('provider', 'provider.id', 'project.fk_provider')
+      .select(
+        'provider.name AS provider',
+        'provider.id AS provider_id',
+        'provider.reliability_percentage AS provider_reliability.percentage',
+        'project.name',
+        'project.id',
+        'project.reliability_percentage',
+        'project.hours_effort',
+        'project.fk_provider',
+        'project.responsible',
+      )
+      .orderBy('project.id');
     return results;
   } catch (error) {
     return apiErrorFactory.createError(error, 'getAllProjects');

@@ -35,6 +35,7 @@ const registerReliability = async (name, meta_percent) => {
     await knex('reliability').insert({ name, meta_percent });
     return { ok: true };
   } catch (error) {
+    console.log('error', error);
     return apiErrorFactory.createError(error, 'registerReliability');
   }
 };
@@ -44,7 +45,7 @@ const updateReliability = async (id, field, value) => {
     await knex('reliability')
       .update({ [`${field}`]: value })
       .where({ id });
-    return { result };
+    return { ok: true };
   } catch (error) {
     return apiErrorFactory.createError(error, 'updateReliability');
   }
