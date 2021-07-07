@@ -34,3 +34,15 @@ npx knex migrate:latest
 ```
 
 OBS: Your database name, user and pass should always match the fields set in knexfile.js
+
+### Run your project with
+
+Monitoring the changes made in the code
+```
+yarn dev
+```
+
+Or not monitoring
+```
+yarn start
+```
