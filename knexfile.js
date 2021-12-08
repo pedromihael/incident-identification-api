@@ -6,9 +6,12 @@ module.exports = {
   development: {
     client: 'pg',
     connection: {
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_DATABASE,
+      port: process.env.POSTGRES_PORT,
+      host: process.env.POSTGRES_HOST,
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
+
     },
     pool: {
       min: 2,
@@ -26,11 +29,11 @@ module.exports = {
   production: {
     client: 'pg',
     connection: {
-      port: process.env.DB_PORT,
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_DATABASE,
+      port: process.env.POSTGRES_PORT,
+      host: process.env.POSTGRES_HOST,
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      database: process.env.POSTGRES_DB,
       ssl: { rejectUnauthorized: false },
     },
     pool: {
