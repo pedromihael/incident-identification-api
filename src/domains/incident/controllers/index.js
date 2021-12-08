@@ -91,11 +91,13 @@ const registerIncident = async (description, fk_severity, fk_project, id) => {
 const updateIncident = async (id, field, value, fk_project) => {
   try {
     if (field === 'weight') {
-      const incidentsByProject = await getIncidentsByProject(fk_project);
       const { id: fk_severity } = await severitiesController.getSeverityByWeight(value);
-
+      
       if (fk_severity) {
         await knex('incident').update({ fk_severity }).where({ id });
+        
+        const incidentsByProject = await getIncidentsByProject(fk_project);
+        
         await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject, 'update');
         await providerModel.updateReliability(fk_project);
       } else {
@@ -120,10 +122,10 @@ const updateIncident = async (id, field, value, fk_project) => {
 const deleteIncident = async (id) => {
   try {
     const { fk_project, fk_severity } = await getProjectByIncident(id);
-    const incidentsByProject = await getIncidentsByProject(fk_project);
-
     await knex('incident').where({ id }).delete();
 
+    const incidentsByProject = await getIncidentsByProject(fk_project);
+    
     await projectsModel.updateReliability(fk_project, fk_severity, incidentsByProject, 'delete');
     await providerModel.updateReliability(fk_project);
 

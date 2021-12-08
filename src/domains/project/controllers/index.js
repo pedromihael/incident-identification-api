@@ -77,8 +77,8 @@ const updateProject = async (id, field, value) => {
 
 const updateProjectReliability = async (id, value) => {
   try {
-    await knex('project').update({ reliability_percentage: value }).where({ id });
-    return { ok: true };
+    const results = await knex('project').update({ reliability_percentage: value }).where({ id }).returning('*');
+    return { ok: true, results };
   } catch (error) {
     return apiErrorFactory.createError(error, 'updateProjectReliability');
   }

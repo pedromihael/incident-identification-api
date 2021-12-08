@@ -33,21 +33,30 @@ const updateReliability = async (fk_project, fk_severity, incidentsByProject, ty
     }
   }
 
-  const sumOfProductsFromWeightsAndQuantities =
-    incidentsGroupedByWeights.length > 1
-      ? incidentsGroupedByWeights.reduce((prev, curr) => {
-          if (prev.hasOwnProperty('weight')) {
-            return prev.weight * prev.quantity + curr.weight * curr.quantity;
-          } else {
-            return prev + curr.weight * curr.quantity;
-          }
-        })
-      : incidentsGroupedByWeights[0].weight * incidentsGroupedByWeights[0].quantity;
+  let sumOfProductsFromWeightsAndQuantities = 0
+
+  switch (incidentsGroupedByWeights.length) {
+    case 0:
+      sumOfProductsFromWeightsAndQuantities = 0
+      break
+    case 1:
+      sumOfProductsFromWeightsAndQuantities = incidentsGroupedByWeights[0].weight * incidentsGroupedByWeights[0].quantity;
+      break
+    default:
+      sumOfProductsFromWeightsAndQuantities = incidentsGroupedByWeights.reduce((prev, curr) => {
+        if (prev.hasOwnProperty('weight')) {
+          return prev.weight * prev.quantity + curr.weight * curr.quantity;
+        } else {
+          return prev + curr.weight * curr.quantity;
+        }
+      })
+  }
 
   const quocient = sumOfProductsFromWeightsAndQuantities / project.hours_effort;
 
+  
   const decimalPercentage = 1 - quocient;
-
+  
   const percentage = parseFloat(decimalPercentage.toFixed(3)) * 100;
 
   try {
